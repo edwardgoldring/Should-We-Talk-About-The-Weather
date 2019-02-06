@@ -1,0 +1,1258 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\williamslaro\Documents\Research\Projects\Spatial Methods\Robustness\Spring 2018\R&R\Results\Spatial Issue Competition--Replication.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 5 Jun 2018, 12:36:23
+{txt}
+{com}. 
+. *******************************************************************************
+. *** Replication
+. *******************************************************************************
+. 
+. use `data', clear
+{txt}
+{com}. 
+. local W contiguity
+{txt}
+{com}. local stub con
+{txt}
+{com}. local rs _rs
+{txt}
+{com}. 
+. preserve
+{txt}
+{com}.         use "Data\W\W`W'`rs'.dta", clear
+{txt}
+{com}.         mkmat `stub'*, matrix(W)
+{res}{txt}
+{com}.         
+.         cap spmat drop w
+{txt}
+{com}.         spmat dta w `stub'*, id(id)     
+{res}{txt}warning: spatial-weighting matrix contains 7 islands
+
+{com}.         drop id
+{txt}
+{com}.         tempfile w
+{txt}
+{com}.         save `w', replace
+{txt}(note: file C:\Users\WILLIA~1\AppData\Local\Temp\ST_175c_000007.tmp not found)
+file C:\Users\WILLIA~1\AppData\Local\Temp\ST_175c_000007.tmp saved
+
+{com}.         
+.         spatwmat using `w', name(w)
+
+
+{txt}The following matrix has been created:
+
+1. Imported non-binary weights matrix {res}w{txt} 
+   Dimension: {res}469x469
+
+{err}   Beware! 7 locations have no neighbors
+
+
+{txt}
+{com}.         
+.         keep in 1/4
+{txt}(465 observations deleted)
+
+{com}.         keep `W'493*
+{txt}
+{com}.         mkmat _all, matrix(Wcont)
+{res}{txt}
+{com}. restore
+{txt}
+{com}. 
+. sort issue ts party
+{txt}
+{com}. 
+. *** Ordinary least squares (OLS) regression
+. reg perc p*perc_tm1 mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2  
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       469
+{txt}{hline 13}{c +}{hline 34}   F(10, 458)      = {res}     8.96
+{txt}       Model {c |} {res}  3044.9553        10   304.49553   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 15571.9457       458  33.9998815   {txt}R-squared       ={res}    0.1636
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1453
+{txt}       Total {c |} {res}  18616.901       468   39.779703   {txt}Root MSE        =   {res} 5.8309
+
+{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         perc{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}p1_perc_tm1 {c |}{col 15}{res}{space 2} .1112422{col 27}{space 2}  .110217{col 38}{space 1}    1.01{col 47}{space 3}0.313{col 55}{space 4}-.1053514{col 68}{space 3} .3278359
+{txt}{space 2}p2_perc_tm1 {c |}{col 15}{res}{space 2}  .243147{col 27}{space 2}  .081536{col 38}{space 1}    2.98{col 47}{space 3}0.003{col 55}{space 4}  .082916{col 68}{space 3} .4033779
+{txt}{space 2}p3_perc_tm1 {c |}{col 15}{res}{space 2} .2148301{col 27}{space 2} .0710858{col 38}{space 1}    3.02{col 47}{space 3}0.003{col 55}{space 4} .0751353{col 68}{space 3} .3545249
+{txt}{space 2}p4_perc_tm1 {c |}{col 15}{res}{space 2} .1556196{col 27}{space 2} .1054409{col 38}{space 1}    1.48{col 47}{space 3}0.141{col 55}{space 4}-.0515884{col 68}{space 3} .3628275
+{txt}{space 1}mip_econ_tm1 {c |}{col 15}{res}{space 2}  .050045{col 27}{space 2} .0217026{col 38}{space 1}    2.31{col 47}{space 3}0.022{col 55}{space 4} .0073959{col 68}{space 3}  .092694
+{txt}{space 6}conf_ch {c |}{col 15}{res}{space 2}-2.577794{col 27}{space 2} 1.033803{col 38}{space 1}   -2.49{col 47}{space 3}0.013{col 55}{space 4} -4.60938{col 68}{space 3}-.5462075
+{txt}{space 2}ep_election {c |}{col 15}{res}{space 2} 3.103663{col 27}{space 2} 2.111213{col 38}{space 1}    1.47{col 47}{space 3}0.142{col 55}{space 4}-1.045202{col 68}{space 3} 7.252528
+{txt}{space 2}g_election2 {c |}{col 15}{res}{space 2} 1.400228{col 27}{space 2} 1.476332{col 38}{space 1}    0.95{col 47}{space 3}0.343{col 55}{space 4}-1.500996{col 68}{space 3} 4.301451
+{txt}{space 12}G {c |}{col 15}{res}{space 2}-1.269869{col 27}{space 2}  .578833{col 38}{space 1}   -2.19{col 47}{space 3}0.029{col 55}{space 4}-2.407366{col 68}{space 3}-.1323708
+{txt}G_g_election2 {c |}{col 15}{res}{space 2} 6.366956{col 27}{space 2} 2.090672{col 38}{space 1}    3.05{col 47}{space 3}0.002{col 55}{space 4} 2.258458{col 68}{space 3} 10.47545
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2}-2.864709{col 27}{space 2} 1.470903{col 38}{space 1}   -1.95{col 47}{space 3}0.052{col 55}{space 4}-5.755265{col 68}{space 3} .0258476
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *** Spatial Durbin model (best model)
+. spreg ml perc `W'`rs'_tlsl coalition_rs_tlsl p*_perc_tm1 mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2, id(id) dlmat(w, eig) 
+{res}{txt}warning: spatial-weighting matrix in {inp}w {txt}contains 7 islands
+
+{txt}Performing a grid search.... {txt}finished
+
+Iteration 0:{space 3}log likelihood = {res:-1483.3275}  
+Iteration 1:{space 3}log likelihood = {res:-1482.9931}  
+Iteration 2:{space 3}log likelihood = {res:-1482.9931}  
+{txt}
+Optimizing unconcentrated log likelihood
+
+Iteration 0:{space 3}log likelihood = {res:-1482.9931}  
+
+Spatial autoregressive model {col 51}Number of obs {col 67}= {res}     469
+{txt}(Maximum likelihood estimates){col 51}Wald chi2({res}12{txt}){col 67}= {res} 85.7269
+{txt}{col 51}Prob > chi2{col 67}= {res}  0.0000
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           perc{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}perc            {txt}{c |}
+contiguity_rs~l {c |}{col 17}{res}{space 2}-.0014915{col 29}{space 2} .0487486{col 40}{space 1}   -0.03{col 49}{space 3}0.976{col 57}{space 4} -.097037{col 70}{space 3}  .094054
+{txt}coalition_rs_~l {c |}{col 17}{res}{space 2} .1231481{col 29}{space 2} .0708494{col 40}{space 1}    1.74{col 49}{space 3}0.082{col 57}{space 4}-.0157141{col 70}{space 3} .2620103
+{txt}{space 4}p1_perc_tm1 {c |}{col 17}{res}{space 2} .0362426{col 29}{space 2} .1143788{col 40}{space 1}    0.32{col 49}{space 3}0.751{col 57}{space 4}-.1879357{col 70}{space 3} .2604208
+{txt}{space 4}p2_perc_tm1 {c |}{col 17}{res}{space 2}  .201442{col 29}{space 2} .0830205{col 40}{space 1}    2.43{col 49}{space 3}0.015{col 57}{space 4} .0387247{col 70}{space 3} .3641592
+{txt}{space 4}p3_perc_tm1 {c |}{col 17}{res}{space 2} .2089553{col 29}{space 2} .0696053{col 40}{space 1}    3.00{col 49}{space 3}0.003{col 57}{space 4} .0725315{col 70}{space 3}  .345379
+{txt}{space 4}p4_perc_tm1 {c |}{col 17}{res}{space 2} .1382091{col 29}{space 2} .1039076{col 40}{space 1}    1.33{col 49}{space 3}0.183{col 57}{space 4} -.065446{col 70}{space 3} .3418643
+{txt}{space 3}mip_econ_tm1 {c |}{col 17}{res}{space 2} .0412172{col 29}{space 2} .0215019{col 40}{space 1}    1.92{col 49}{space 3}0.055{col 57}{space 4}-.0009257{col 70}{space 3} .0833601
+{txt}{space 8}conf_ch {c |}{col 17}{res}{space 2}-2.256142{col 29}{space 2}  1.02798{col 40}{space 1}   -2.19{col 49}{space 3}0.028{col 57}{space 4}-4.270946{col 70}{space 3} -.241339
+{txt}{space 4}ep_election {c |}{col 17}{res}{space 2} 2.757573{col 29}{space 2} 2.075387{col 40}{space 1}    1.33{col 49}{space 3}0.184{col 57}{space 4} -1.31011{col 70}{space 3} 6.825256
+{txt}{space 4}g_election2 {c |}{col 17}{res}{space 2} 1.209924{col 29}{space 2} 1.453047{col 40}{space 1}    0.83{col 49}{space 3}0.405{col 57}{space 4}-1.637996{col 70}{space 3} 4.057844
+{txt}{space 14}G {c |}{col 17}{res}{space 2}-1.239041{col 29}{space 2} .5689266{col 40}{space 1}   -2.18{col 49}{space 3}0.029{col 57}{space 4}-2.354117{col 70}{space 3}-.1239656
+{txt}{space 2}G_g_election2 {c |}{col 17}{res}{space 2} 5.606871{col 29}{space 2} 2.072886{col 40}{space 1}    2.70{col 49}{space 3}0.007{col 57}{space 4} 1.544089{col 70}{space 3} 9.669653
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2}-2.234203{col 29}{space 2} 1.459101{col 40}{space 1}   -1.53{col 49}{space 3}0.126{col 57}{space 4}-5.093988{col 70}{space 3} .6255819
+{txt}{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}lambda          {txt}{c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0712139{col 29}{space 2} .0364749{col 40}{space 1}    1.95{col 49}{space 3}0.051{col 57}{space 4}-.0002756{col 70}{space 3} .1427035
+{txt}{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}sigma2          {txt}{c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} 32.55781{col 29}{space 2} 2.128738{col 40}{space 1}   15.29{col 49}{space 3}0.000{col 57}{space 4} 28.38556{col 70}{space 3} 36.73006
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. ****************************************************************************
+. *** Long-Term Effects for OLS
+. ****************************************************************************
+. 
+. qui reg perc p*perc_tm1 mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2
+{txt}
+{com}. mat b = e(b)
+{txt}
+{com}. qui sum mip_econ_tm1 if e(sample)
+{txt}
+{com}. local sd = r(sd)
+{txt}
+{com}. 
+. foreach p of numlist 1(1)4 {c -(}
+{txt}  2{com}.         di _newline(2) "Party = `p'"
+{txt}  3{com}.         di "LTE of Economic Salience = " b[1,5]/(1-b[1,`p'])
+{txt}  4{com}.                 di "1-standard deviation ("round(`sd', .01) ") LTE of Economic Salience = " `sd' * (b[1,5]/(1-b[1,`p']))
+{txt}  5{com}.         di "LTE of Consumer Confidence = " b[1,6]/(1-b[1,`p'])
+{txt}  6{com}. 
+.         di "LTE of EP Election = " b[1,7]/(1-b[1,`p'])  
+{txt}  7{com}.         
+.         di "LTE of General Election (Opposition) = " b[1,8]/(1-b[1,`p'])
+{txt}  8{com}. 
+.         di "LTE of General Election (Government) = " (b[1,8]+b[1,10])/(1-b[1,`p'])      
+{txt}  9{com}.         
+.         di "LTE of Government (No GE) = " b[1,9]/(1-b[1,`p'])   
+{txt} 10{com}.         
+.         di "LTE of Government (GE) = " (b[1,9]+b[1,10])/(1-b[1,`p'])            
+{txt} 11{com}. {c )-}
+
+
+Party = 1
+LTE of Economic Salience = .0563089
+1-standard deviation (13.26) LTE of Economic Salience = .74638075
+LTE of Consumer Confidence = -2.9004457
+LTE of EP Election = 3.4921361
+LTE of General Election (Opposition) = 1.5754886
+LTE of General Election (Government) = 8.739371
+LTE of Government (No GE) = -1.4288129
+LTE of Government (GE) = 5.7350695
+
+
+Party = 2
+LTE of Economic Salience = .06612244
+1-standard deviation (13.26) LTE of Economic Salience = .87646035
+LTE of Consumer Confidence = -3.4059368
+LTE of EP Election = 4.1007473
+LTE of General Election (Opposition) = 1.8500655
+LTE of General Election (Government) = 10.262473
+LTE of Government (No GE) = -1.6778271
+LTE of Government (GE) = 6.7345802
+
+
+Party = 3
+LTE of Economic Salience = .06373776
+1-standard deviation (13.26) LTE of Economic Salience = .84485113
+LTE of Consumer Confidence = -3.2831029
+LTE of EP Election = 3.9528553
+LTE of General Election (Opposition) = 1.7833436
+LTE of General Election (Government) = 9.8923605
+LTE of Government (No GE) = -1.6173169
+LTE of Government (GE) = 6.4917
+
+
+Party = 4
+LTE of Economic Salience = .05926827
+1-standard deviation (13.26) LTE of Economic Salience = .78560759
+LTE of Consumer Confidence = -3.0528817
+LTE of EP Election = 3.6756691
+LTE of General Election (Opposition) = 1.6582901
+LTE of General Election (Government) = 9.198678
+LTE of Government (No GE) = -1.5039057
+LTE of Government (GE) = 6.0364822
+{txt}
+{com}. 
+. 
+. 
+. ****************************************************************************
+. *** Multicollinearity
+. ****************************************************************************
+. 
+. qui reg contiguity_rs_tlsl p*_perc_tm1 coalition_rs_tlsl mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2
+{txt}
+{com}. di "Variance inflation factor = " 1/(1-e(r2))
+{res}Variance inflation factor = 1.2735718
+{txt}
+{com}. 
+. qui reg coalition_rs_tlsl p*_perc_tm1 contiguity_rs_tlsl mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2
+{txt}
+{com}. di "Variance inflation factor = " 1/(1-e(r2))
+{res}Variance inflation factor = 1.5265513
+{txt}
+{com}. 
+. ****************************************************************************
+. *** Secondary tests
+. ****************************************************************************
+. 
+. *** Summary statistics for emphasis by party
+. bys party: sum perc, det
+
+{txt}{hline}
+-> party = 1 Greens
+
+     Percentage of press releases on that issue at time
+                              t
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-9.178772      -14.17877
+{txt} 5%    {res}-8.005932      -9.178772
+{txt}10%    {res}-5.204413      -9.094026       {txt}Obs         {res}        119
+{txt}25%    {res} -2.27401      -8.518395       {txt}Sum of Wgt. {res}        119
+
+{txt}50%    {res} .9155679                      {txt}Mean          {res} .7097804
+                        {txt}Largest       Std. Dev.     {res} 4.959207
+{txt}75%    {res} 3.339476       12.22123
+{txt}90%    {res} 5.821229       13.45281       {txt}Variance      {res} 24.59373
+{txt}95%    {res} 8.969376       16.59046       {txt}Skewness      {res} .3864921
+{txt}99%    {res} 16.59046       17.82123       {txt}Kurtosis      {res} 4.638054
+
+{txt}{hline}
+-> party = 2 SPD
+
+     Percentage of press releases on that issue at time
+                              t
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-13.95913      -13.95913
+{txt} 5%    {res}-10.06303      -13.95913
+{txt}10%    {res} -7.50752      -13.95913       {txt}Obs         {res}        116
+{txt}25%    {res}-4.435057       -10.6258       {txt}Sum of Wgt. {res}        116
+
+{txt}50%    {res}-1.008823                      {txt}Mean          {res} .3201313
+                        {txt}Largest       Std. Dev.     {res} 6.867896
+{txt}75%    {res} 5.128332       13.31359
+{txt}90%    {res}  9.95391       17.29087       {txt}Variance      {res} 47.16799
+{txt}95%    {res} 11.68189        19.3742       {txt}Skewness      {res} .4713823
+{txt}99%    {res}  19.3742        19.3742       {txt}Kurtosis      {res} 2.997571
+
+{txt}{hline}
+-> party = 3 FDP
+
+     Percentage of press releases on that issue at time
+                              t
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}-12.62048      -12.62048
+{txt} 5%    {res}-12.62048      -12.62048
+{txt}10%    {res}-9.763339      -12.62048       {txt}Obs         {res}        115
+{txt}25%    {res}-5.878908      -12.62048       {txt}Sum of Wgt. {res}        115
+
+{txt}50%    {res}-.1204815                      {txt}Mean          {res}-.0870257
+                        {txt}Largest       Std. Dev.     {res} 7.739002
+{txt}75%    {res} 3.817875       14.04619
+{txt}90%    {res} 7.692019       14.40655       {txt}Variance      {res} 59.89216
+{txt}95%    {res} 13.69531       20.71285       {txt}Skewness      {res} 1.040942
+{txt}99%    {res} 20.71285       37.37952       {txt}Kurtosis      {res} 6.668366
+
+{txt}{hline}
+-> party = 4 CDU/CSU
+
+     Percentage of press releases on that issue at time
+                              t
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} -12.8534       -12.8534
+{txt} 5%    {res}-8.628045       -12.8534
+{txt}10%    {res}-7.477053      -10.52782       {txt}Obs         {res}        119
+{txt}25%    {res}-3.329587      -10.22182       {txt}Sum of Wgt. {res}        119
+
+{txt}50%    {res} .0498282                      {txt}Mean          {res} .0245342
+                        {txt}Largest       Std. Dev.     {res} 5.382011
+{txt}75%    {res} 3.337079       10.22353
+{txt}90%    {res} 6.843573       11.38903       {txt}Variance      {res} 28.96604
+{txt}95%    {res} 8.575175       12.37183       {txt}Skewness      {res} .1819244
+{txt}99%    {res} 12.37183       18.72555       {txt}Kurtosis      {res}  3.53185
+
+{txt}
+{com}. 
+. *** Test the lag structure
+. reg perc mip_econ mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       469
+{txt}{hline 13}{c +}{hline 34}   F(7, 461)       = {res}     9.72
+{txt}       Model {c |} {res} 2395.11562         7  342.159374   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 16221.7854       461  35.1882547   {txt}R-squared       ={res}    0.1287
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1154
+{txt}       Total {c |} {res}  18616.901       468   39.779703   {txt}Root MSE        =   {res}  5.932
+
+{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         perc{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}mip_econ {c |}{col 15}{res}{space 2}-.0519111{col 27}{space 2} .0450973{col 38}{space 1}   -1.15{col 47}{space 3}0.250{col 55}{space 4}-.1405329{col 68}{space 3} .0367107
+{txt}{space 1}mip_econ_tm1 {c |}{col 15}{res}{space 2} .1056541{col 27}{space 2} .0423591{col 38}{space 1}    2.49{col 47}{space 3}0.013{col 55}{space 4} .0224132{col 68}{space 3}  .188895
+{txt}{space 6}conf_ch {c |}{col 15}{res}{space 2}-3.572111{col 27}{space 2} 1.059735{col 38}{space 1}   -3.37{col 47}{space 3}0.001{col 55}{space 4}-5.654621{col 68}{space 3}-1.489601
+{txt}{space 2}ep_election {c |}{col 15}{res}{space 2} 3.567366{col 27}{space 2}  2.14202{col 38}{space 1}    1.67{col 47}{space 3}0.097{col 55}{space 4}-.6419659{col 68}{space 3} 7.776699
+{txt}{space 2}g_election2 {c |}{col 15}{res}{space 2} 1.700062{col 27}{space 2} 1.509587{col 38}{space 1}    1.13{col 47}{space 3}0.261{col 55}{space 4}-1.266462{col 68}{space 3} 4.666585
+{txt}{space 12}G {c |}{col 15}{res}{space 2}-1.507633{col 27}{space 2} .5701571{col 38}{space 1}   -2.64{col 47}{space 3}0.008{col 55}{space 4}-2.628062{col 68}{space 3}-.3872045
+{txt}G_g_election2 {c |}{col 15}{res}{space 2} 7.746471{col 27}{space 2} 2.057884{col 38}{space 1}    3.76{col 47}{space 3}0.000{col 55}{space 4} 3.702476{col 68}{space 3} 11.79047
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2}-3.032806{col 27}{space 2} 1.558521{col 38}{space 1}   -1.95{col 47}{space 3}0.052{col 55}{space 4}-6.095492{col 68}{space 3} .0298794
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *** Are the phis statistically different?
+. spreg ml perc p*_perc_tm1 `W'`rs'_tlsl coalition_rs_tlsl mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2, id(id) dlmat(w, eig)
+{res}{txt}warning: spatial-weighting matrix in {inp}w {txt}contains 7 islands
+
+{txt}Performing a grid search.... {txt}finished
+
+Iteration 0:{space 3}log likelihood = {res:-1483.3275}  
+Iteration 1:{space 3}log likelihood = {res:-1482.9931}  
+Iteration 2:{space 3}log likelihood = {res:-1482.9931}  
+{txt}
+Optimizing unconcentrated log likelihood
+
+Iteration 0:{space 3}log likelihood = {res:-1482.9931}  
+
+Spatial autoregressive model {col 51}Number of obs {col 67}= {res}     469
+{txt}(Maximum likelihood estimates){col 51}Wald chi2({res}12{txt}){col 67}= {res} 85.7269
+{txt}{col 51}Prob > chi2{col 67}= {res}  0.0000
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           perc{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}perc            {txt}{c |}
+{space 4}p1_perc_tm1 {c |}{col 17}{res}{space 2} .0362426{col 29}{space 2} .1143788{col 40}{space 1}    0.32{col 49}{space 3}0.751{col 57}{space 4}-.1879357{col 70}{space 3} .2604208
+{txt}{space 4}p2_perc_tm1 {c |}{col 17}{res}{space 2}  .201442{col 29}{space 2} .0830205{col 40}{space 1}    2.43{col 49}{space 3}0.015{col 57}{space 4} .0387247{col 70}{space 3} .3641592
+{txt}{space 4}p3_perc_tm1 {c |}{col 17}{res}{space 2} .2089553{col 29}{space 2} .0696053{col 40}{space 1}    3.00{col 49}{space 3}0.003{col 57}{space 4} .0725315{col 70}{space 3}  .345379
+{txt}{space 4}p4_perc_tm1 {c |}{col 17}{res}{space 2} .1382091{col 29}{space 2} .1039076{col 40}{space 1}    1.33{col 49}{space 3}0.183{col 57}{space 4} -.065446{col 70}{space 3} .3418643
+{txt}contiguity_rs~l {c |}{col 17}{res}{space 2}-.0014915{col 29}{space 2} .0487486{col 40}{space 1}   -0.03{col 49}{space 3}0.976{col 57}{space 4} -.097037{col 70}{space 3}  .094054
+{txt}coalition_rs_~l {c |}{col 17}{res}{space 2} .1231481{col 29}{space 2} .0708494{col 40}{space 1}    1.74{col 49}{space 3}0.082{col 57}{space 4}-.0157141{col 70}{space 3} .2620103
+{txt}{space 3}mip_econ_tm1 {c |}{col 17}{res}{space 2} .0412172{col 29}{space 2} .0215019{col 40}{space 1}    1.92{col 49}{space 3}0.055{col 57}{space 4}-.0009257{col 70}{space 3} .0833601
+{txt}{space 8}conf_ch {c |}{col 17}{res}{space 2}-2.256142{col 29}{space 2}  1.02798{col 40}{space 1}   -2.19{col 49}{space 3}0.028{col 57}{space 4}-4.270946{col 70}{space 3} -.241339
+{txt}{space 4}ep_election {c |}{col 17}{res}{space 2} 2.757573{col 29}{space 2} 2.075387{col 40}{space 1}    1.33{col 49}{space 3}0.184{col 57}{space 4} -1.31011{col 70}{space 3} 6.825256
+{txt}{space 4}g_election2 {c |}{col 17}{res}{space 2} 1.209924{col 29}{space 2} 1.453047{col 40}{space 1}    0.83{col 49}{space 3}0.405{col 57}{space 4}-1.637996{col 70}{space 3} 4.057844
+{txt}{space 14}G {c |}{col 17}{res}{space 2}-1.239041{col 29}{space 2} .5689266{col 40}{space 1}   -2.18{col 49}{space 3}0.029{col 57}{space 4}-2.354117{col 70}{space 3}-.1239656
+{txt}{space 2}G_g_election2 {c |}{col 17}{res}{space 2} 5.606871{col 29}{space 2} 2.072886{col 40}{space 1}    2.70{col 49}{space 3}0.007{col 57}{space 4} 1.544089{col 70}{space 3} 9.669653
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2}-2.234203{col 29}{space 2} 1.459101{col 40}{space 1}   -1.53{col 49}{space 3}0.126{col 57}{space 4}-5.093988{col 70}{space 3} .6255819
+{txt}{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}lambda          {txt}{c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0712139{col 29}{space 2} .0364749{col 40}{space 1}    1.95{col 49}{space 3}0.051{col 57}{space 4}-.0002756{col 70}{space 3} .1427035
+{txt}{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}sigma2          {txt}{c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} 32.55781{col 29}{space 2} 2.128738{col 40}{space 1}   15.29{col 49}{space 3}0.000{col 57}{space 4} 28.38556{col 70}{space 3} 36.73006
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. test p2_perc_tm1 = p1_perc_tm1
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [perc]p1_perc_tm1 + [perc]p2_perc_tm1 = 0{p_end}
+
+{txt}{col 12}chi2(  1) ={res}    1.60
+{txt}{col 10}Prob > chi2 =  {res}  0.2060
+{txt}
+{com}. test p3_perc_tm1 = p1_perc_tm1
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [perc]p1_perc_tm1 + [perc]p3_perc_tm1 = 0{p_end}
+
+{txt}{col 12}chi2(  1) ={res}    1.67
+{txt}{col 10}Prob > chi2 =  {res}  0.1959
+{txt}
+{com}. test p2_perc_tm1 = p4_perc_tm1
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[perc]p2_perc_tm1 - [perc]p4_perc_tm1 = 0{p_end}
+
+{txt}{col 12}chi2(  1) ={res}    0.24
+{txt}{col 10}Prob > chi2 =  {res}  0.6256
+{txt}
+{com}. test p3_perc_tm1 = p4_perc_tm1
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[perc]p3_perc_tm1 - [perc]p4_perc_tm1 = 0{p_end}
+
+{txt}{col 12}chi2(  1) ={res}    0.32
+{txt}{col 10}Prob > chi2 =  {res}  0.5700
+{txt}
+{com}. 
+. *******************************************************************************
+. *******************************************************************************
+. *** Substantive effects for spatial econometric models
+. *******************************************************************************
+. *******************************************************************************
+. 
+. 
+. *******************************************************************************
+. *** Illustration of all spatial-temporal effects
+. ***
+. *** German coalition: SPD + Greens
+. *******************************************************************************
+. 
+. *use `data', clear
+. 
+. local W contiguity
+{txt}
+{com}. local stub con
+{txt}
+{com}. local rs _rs
+{txt}
+{com}. *local rs 
+. 
+. preserve
+{txt}
+{com}.         use "Data\W\W`W'`rs'.dta", clear
+{txt}
+{com}.         mkmat `stub'*, matrix(W)
+{res}{txt}
+{com}.         
+.         cap spmat drop w
+{txt}
+{com}.         spmat dta w `stub'*, id(id)     
+{res}{txt}warning: spatial-weighting matrix contains 7 islands
+
+{com}.         drop id
+{txt}
+{com}.         tempfile w
+{txt}
+{com}.         save `w', replace
+{txt}(note: file C:\Users\WILLIA~1\AppData\Local\Temp\ST_175c_000009.tmp not found)
+file C:\Users\WILLIA~1\AppData\Local\Temp\ST_175c_000009.tmp saved
+
+{com}.         
+.         spatwmat using `w', name(w)
+
+
+{txt}The following matrix has been created:
+
+1. Imported non-binary weights matrix {res}w{txt} 
+   Dimension: {res}469x469
+
+{err}   Beware! 7 locations have no neighbors
+
+
+{txt}
+{com}.         
+.         keep in 1/4
+{txt}(465 observations deleted)
+
+{com}.         keep `W'493*
+{txt}
+{com}.         mkmat _all, matrix(Wcont)
+{res}{txt}
+{com}. restore
+{txt}
+{com}. 
+. sort issue ts party
+{txt}
+{com}. 
+. *** Ordinary least squares (OLS) regression
+. reg perc mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       469
+{txt}{hline 13}{c +}{hline 34}   F(6, 462)       = {res}    11.12
+{txt}       Model {c |} {res} 2348.49089         6  391.415149   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 16268.4101       462   35.213009   {txt}R-squared       ={res}    0.1261
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1148
+{txt}       Total {c |} {res}  18616.901       468   39.779703   {txt}Root MSE        =   {res} 5.9341
+
+{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         perc{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 1}mip_econ_tm1 {c |}{col 15}{res}{space 2} .0635454{col 27}{space 2} .0213636{col 38}{space 1}    2.97{col 47}{space 3}0.003{col 55}{space 4} .0215635{col 68}{space 3} .1055273
+{txt}{space 6}conf_ch {c |}{col 15}{res}{space 2}-3.310807{col 27}{space 2}   1.0355{col 38}{space 1}   -3.20{col 47}{space 3}0.001{col 55}{space 4}-5.345681{col 68}{space 3}-1.275933
+{txt}{space 2}ep_election {c |}{col 15}{res}{space 2} 3.576773{col 27}{space 2} 2.142757{col 38}{space 1}    1.67{col 47}{space 3}0.096{col 55}{space 4} -.633985{col 68}{space 3} 7.787531
+{txt}{space 2}g_election2 {c |}{col 15}{res}{space 2} 1.414036{col 27}{space 2} 1.489519{col 38}{space 1}    0.95{col 47}{space 3}0.343{col 55}{space 4}-1.513036{col 68}{space 3} 4.341108
+{txt}{space 12}G {c |}{col 15}{res}{space 2}-1.510892{col 27}{space 2} .5703506{col 38}{space 1}   -2.65{col 47}{space 3}0.008{col 55}{space 4}-2.631695{col 68}{space 3}-.3900896
+{txt}G_g_election2 {c |}{col 15}{res}{space 2}  7.74973{col 27}{space 2} 2.058605{col 38}{space 1}    3.76{col 47}{space 3}0.000{col 55}{space 4} 3.704339{col 68}{space 3} 11.79512
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2}-3.675256{col 27}{space 2} 1.455671{col 38}{space 1}   -2.52{col 47}{space 3}0.012{col 55}{space 4}-6.535811{col 68}{space 3}-.8147001
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. qui sum mip_econ_tm1 if e(sample)
+{txt}
+{com}. local sd = r(sd)
+{txt}
+{com}. 
+. *** Spatial Durbin model (best model)
+. spreg ml perc p*_perc_tm1 `W'`rs'_tlsl coalition_rs_tlsl mip_econ_tm1 conf_ch ep_election g_election2 G G_g_election2, id(id) dlmat(w, eig)
+{res}{txt}warning: spatial-weighting matrix in {inp}w {txt}contains 7 islands
+
+{txt}Performing a grid search.... {txt}finished
+
+Iteration 0:{space 3}log likelihood = {res:-1483.3275}  
+Iteration 1:{space 3}log likelihood = {res:-1482.9931}  
+Iteration 2:{space 3}log likelihood = {res:-1482.9931}  
+{txt}
+Optimizing unconcentrated log likelihood
+
+Iteration 0:{space 3}log likelihood = {res:-1482.9931}  
+
+Spatial autoregressive model {col 51}Number of obs {col 67}= {res}     469
+{txt}(Maximum likelihood estimates){col 51}Wald chi2({res}12{txt}){col 67}= {res} 85.7269
+{txt}{col 51}Prob > chi2{col 67}= {res}  0.0000
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           perc{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}perc            {txt}{c |}
+{space 4}p1_perc_tm1 {c |}{col 17}{res}{space 2} .0362426{col 29}{space 2} .1143788{col 40}{space 1}    0.32{col 49}{space 3}0.751{col 57}{space 4}-.1879357{col 70}{space 3} .2604208
+{txt}{space 4}p2_perc_tm1 {c |}{col 17}{res}{space 2}  .201442{col 29}{space 2} .0830205{col 40}{space 1}    2.43{col 49}{space 3}0.015{col 57}{space 4} .0387247{col 70}{space 3} .3641592
+{txt}{space 4}p3_perc_tm1 {c |}{col 17}{res}{space 2} .2089553{col 29}{space 2} .0696053{col 40}{space 1}    3.00{col 49}{space 3}0.003{col 57}{space 4} .0725315{col 70}{space 3}  .345379
+{txt}{space 4}p4_perc_tm1 {c |}{col 17}{res}{space 2} .1382091{col 29}{space 2} .1039076{col 40}{space 1}    1.33{col 49}{space 3}0.183{col 57}{space 4} -.065446{col 70}{space 3} .3418643
+{txt}contiguity_rs~l {c |}{col 17}{res}{space 2}-.0014915{col 29}{space 2} .0487486{col 40}{space 1}   -0.03{col 49}{space 3}0.976{col 57}{space 4} -.097037{col 70}{space 3}  .094054
+{txt}coalition_rs_~l {c |}{col 17}{res}{space 2} .1231481{col 29}{space 2} .0708494{col 40}{space 1}    1.74{col 49}{space 3}0.082{col 57}{space 4}-.0157141{col 70}{space 3} .2620103
+{txt}{space 3}mip_econ_tm1 {c |}{col 17}{res}{space 2} .0412172{col 29}{space 2} .0215019{col 40}{space 1}    1.92{col 49}{space 3}0.055{col 57}{space 4}-.0009257{col 70}{space 3} .0833601
+{txt}{space 8}conf_ch {c |}{col 17}{res}{space 2}-2.256142{col 29}{space 2}  1.02798{col 40}{space 1}   -2.19{col 49}{space 3}0.028{col 57}{space 4}-4.270946{col 70}{space 3} -.241339
+{txt}{space 4}ep_election {c |}{col 17}{res}{space 2} 2.757573{col 29}{space 2} 2.075387{col 40}{space 1}    1.33{col 49}{space 3}0.184{col 57}{space 4} -1.31011{col 70}{space 3} 6.825256
+{txt}{space 4}g_election2 {c |}{col 17}{res}{space 2} 1.209924{col 29}{space 2} 1.453047{col 40}{space 1}    0.83{col 49}{space 3}0.405{col 57}{space 4}-1.637996{col 70}{space 3} 4.057844
+{txt}{space 14}G {c |}{col 17}{res}{space 2}-1.239041{col 29}{space 2} .5689266{col 40}{space 1}   -2.18{col 49}{space 3}0.029{col 57}{space 4}-2.354117{col 70}{space 3}-.1239656
+{txt}{space 2}G_g_election2 {c |}{col 17}{res}{space 2} 5.606871{col 29}{space 2} 2.072886{col 40}{space 1}    2.70{col 49}{space 3}0.007{col 57}{space 4} 1.544089{col 70}{space 3} 9.669653
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2}-2.234203{col 29}{space 2} 1.459101{col 40}{space 1}   -1.53{col 49}{space 3}0.126{col 57}{space 4}-5.093988{col 70}{space 3} .6255819
+{txt}{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}lambda          {txt}{c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0712139{col 29}{space 2} .0364749{col 40}{space 1}    1.95{col 49}{space 3}0.051{col 57}{space 4}-.0002756{col 70}{space 3} .1427035
+{txt}{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}sigma2          {txt}{c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} 32.55781{col 29}{space 2} 2.128738{col 40}{space 1}   15.29{col 49}{space 3}0.000{col 57}{space 4} 28.38556{col 70}{space 3} 36.73006
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mat b = e(b)
+{txt}
+{com}. mat V = e(V)
+{txt}
+{com}. 
+. local W coalition
+{txt}
+{com}. local stub coal
+{txt}
+{com}. local rs _rs
+{txt}
+{com}. *local rs 
+. 
+. preserve
+{txt}
+{com}.         use "Data\W\W`W'`rs'.dta", clear
+{txt}
+{com}.         keep in 1/4
+{txt}(465 observations deleted)
+
+{com}.         keep `W'493*
+{txt}
+{com}.         mkmat _all, matrix(Wcoal)
+{res}{txt}
+{com}. restore
+{txt}
+{com}. 
+. * What is the change in X?
+. scalar X = `sd'
+{txt}
+{com}. 
+. * How many simulations?
+. local draws = 1000
+{txt}
+{com}. 
+. * Now use -corr2data- to simulate N draws from the multivariate normal distribution based on the maximum likelihood estimates.
+. set seed 8675309
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. corr2data b1 - b12 alpha rho sigma, n(`draws') means(b) cov(V)
+{txt}(obs 1,000)
+
+{com}. 
+. * Make this into an Nx2 matrix
+. mkmat _all, matrix(draws)
+{res}{txt}
+{com}. 
+. * Which column is rho?
+. local rho = 14
+{txt}
+{com}. 
+. * Which columns are phi?
+. local phi1 = 1
+{txt}
+{com}. local phi4 = 4
+{txt}
+{com}. 
+. * Which column is theta?
+. *local theta = 5                                /* Contiguity TLSL */
+. local theta = 6                                 /* Coalition TLSL */
+{txt}
+{com}. 
+. * Which parameter (beta)?
+. *local beta = 8                                 /* Change in consumer confidence */
+. local beta = 7                                  /* MIP economy t-1 */
+{txt}
+{com}. 
+. * Local macro representing the number of observations
+. local N = rowsof(Wcont)
+{txt}
+{com}. 
+. * Identity matrix
+. mat I = I(`N')
+{txt}
+{com}. 
+. * A draws x 1 matrix of missing values; we will fill in these values with the direct, spatial and total effects in the loop.
+. foreach t of numlist 0(1)10 {c -(}
+{txt}  2{com}.         mat tp`t'_total_draws = J(`draws',4,.)
+{txt}  3{com}.         mat tp`t'_ctotal_draws = J(`draws',4,.)
+{txt}  4{com}.         mat tp`t'_direct_draws = J(`draws',4,.)
+{txt}  5{com}.         mat tp`t'_spatial_draws = J(`draws',4,.)
+{txt}  6{com}. {c )-}
+{txt}
+{com}. 
+. mat total_draws = J(`draws',4,.)
+{txt}
+{com}. 
+. *** Make all the matrices accessible in mata
+. mata: I = st_matrix("I")
+{res}{txt}
+{com}. mata: Wcont = st_matrix("Wcont")
+{res}{txt}
+{com}. mata: Wcoal = st_matrix("Wcoal")
+{res}{txt}
+{com}. mata: X = st_numscalar("X")
+{res}{txt}
+{com}. 
+. local d = 1
+{txt}
+{com}. while `d' <= `draws' {c -(}
+{txt}  2{com}.         scalar beta = draws[`d',`beta']
+{txt}  3{com}.         scalar theta = draws[`d',`theta']
+{txt}  4{com}.         scalar rho = draws[`d',`rho']
+{txt}  5{com}.         matrix phi = draws[`d',`phi1'..`phi4']
+{txt}  6{com}. 
+.         mata: beta = st_numscalar("beta")
+{txt}  7{com}.         mata: theta = st_numscalar("theta")
+{txt}  8{com}.         mata: rho = st_numscalar("rho")
+{txt}  9{com}.         mata: phi = st_matrix("phi")
+{txt} 10{com}.         
+.         mata: pd = luinv(I-rho*Wcont)*X*beta    
+{txt} 11{com}.         
+.         mata: tp0_direct = diagonal(pd)'
+{txt} 12{com}.         mata: tp0_spatial = colsum(pd) :- tp0_direct
+{txt} 13{com}.         mata: tp0_total = tp0_direct + tp0_spatial
+{txt} 14{com}.         mata: tp0_ctotal = tp0_direct + tp0_spatial
+{txt} 15{com}.         
+.         mata: st_matrix("tp0_direct", tp0_direct)
+{txt} 16{com}.         mata: st_matrix("tp0_spatial", tp0_spatial)
+{txt} 17{com}.         mata: st_matrix("tp0_total", tp0_total)
+{txt} 18{com}.         mata: st_matrix("tp0_ctotal", tp0_ctotal)
+{txt} 19{com}.         
+.         mata: tp1_direct = phi :* tp0_total
+{txt} 20{com}.         mata: tp1_spatial = (theta*Wcoal*tp0_total')'
+{txt} 21{com}.         mata: tp1_total = tp1_direct + tp1_spatial
+{txt} 22{com}.         mata: tp1_ctotal = tp1_direct + tp1_spatial + tp0_total
+{txt} 23{com}.         
+.         mata: st_matrix("tp1_direct", tp1_direct)
+{txt} 24{com}.         mata: st_matrix("tp1_spatial", tp1_spatial)
+{txt} 25{com}.         mata: st_matrix("tp1_total", tp1_total)
+{txt} 26{com}.         mata: st_matrix("tp1_ctotal", tp1_ctotal)
+{txt} 27{com}.         
+.         mata: tp2_direct = phi :* tp1_total
+{txt} 28{com}.         mata: tp2_spatial = (theta*Wcoal*tp1_total')'
+{txt} 29{com}.         mata: tp2_total = tp2_direct + tp2_spatial
+{txt} 30{com}.         mata: tp2_ctotal = tp2_direct + tp2_spatial + tp1_ctotal
+{txt} 31{com}.         
+.         mata: st_matrix("tp2_direct", tp2_direct)
+{txt} 32{com}.         mata: st_matrix("tp2_spatial", tp2_spatial)
+{txt} 33{com}.         mata: st_matrix("tp2_total", tp2_total)
+{txt} 34{com}.         mata: st_matrix("tp2_ctotal", tp2_ctotal)
+{txt} 35{com}.         
+.         mata: tp3_direct = phi :* tp2_total
+{txt} 36{com}.         mata: tp3_spatial = (theta*Wcoal*tp2_total')'
+{txt} 37{com}.         mata: tp3_total = tp3_direct + tp3_spatial
+{txt} 38{com}.         mata: tp3_ctotal = tp3_direct + tp3_spatial + tp2_ctotal
+{txt} 39{com}.         
+.         mata: st_matrix("tp3_direct", tp3_direct)
+{txt} 40{com}.         mata: st_matrix("tp3_spatial", tp3_spatial)
+{txt} 41{com}.         mata: st_matrix("tp3_total", tp3_total)
+{txt} 42{com}.         mata: st_matrix("tp3_ctotal", tp3_ctotal)
+{txt} 43{com}.         
+.         mata: tp4_direct = phi :* tp3_total
+{txt} 44{com}.         mata: tp4_spatial = (theta*Wcoal*tp3_total')'
+{txt} 45{com}.         mata: tp4_total = tp4_direct + tp4_spatial
+{txt} 46{com}.         mata: tp4_ctotal = tp4_direct + tp4_spatial + tp3_ctotal
+{txt} 47{com}.         
+.         mata: st_matrix("tp4_direct", tp4_direct)
+{txt} 48{com}.         mata: st_matrix("tp4_spatial", tp4_spatial)
+{txt} 49{com}.         mata: st_matrix("tp4_total", tp4_total)
+{txt} 50{com}.         mata: st_matrix("tp4_ctotal", tp4_ctotal)
+{txt} 51{com}.         
+.         mata: tp5_direct = phi :* tp4_total
+{txt} 52{com}.         mata: tp5_spatial = (theta*Wcoal*tp4_total')'
+{txt} 53{com}.         mata: tp5_total = tp5_direct + tp5_spatial
+{txt} 54{com}.         mata: tp5_ctotal = tp5_direct + tp5_spatial + tp4_ctotal
+{txt} 55{com}.         
+.         mata: st_matrix("tp5_direct", tp5_direct)
+{txt} 56{com}.         mata: st_matrix("tp5_spatial", tp5_spatial)
+{txt} 57{com}.         mata: st_matrix("tp5_total", tp5_total)
+{txt} 58{com}.         mata: st_matrix("tp5_ctotal", tp5_ctotal)
+{txt} 59{com}.         
+.         mata: tp6_direct = phi :* tp5_total
+{txt} 60{com}.         mata: tp6_spatial = (theta*Wcoal*tp5_total')'
+{txt} 61{com}.         mata: tp6_total = tp6_direct + tp6_spatial
+{txt} 62{com}.         mata: tp6_ctotal = tp6_direct + tp6_spatial + tp5_ctotal
+{txt} 63{com}.         
+.         mata: st_matrix("tp6_direct", tp6_direct)
+{txt} 64{com}.         mata: st_matrix("tp6_spatial", tp6_spatial)
+{txt} 65{com}.         mata: st_matrix("tp6_total", tp6_total)
+{txt} 66{com}.         mata: st_matrix("tp6_ctotal", tp6_ctotal)
+{txt} 67{com}.         
+.         mata: tp7_direct = phi :* tp6_total
+{txt} 68{com}.         mata: tp7_spatial = (theta*Wcoal*tp6_total')'
+{txt} 69{com}.         mata: tp7_total = tp7_direct + tp7_spatial
+{txt} 70{com}.         mata: tp7_ctotal = tp7_direct + tp7_spatial + tp6_ctotal
+{txt} 71{com}.         
+.         mata: st_matrix("tp7_direct", tp7_direct)
+{txt} 72{com}.         mata: st_matrix("tp7_spatial", tp7_spatial)
+{txt} 73{com}.         mata: st_matrix("tp7_total", tp7_total)
+{txt} 74{com}.         mata: st_matrix("tp7_ctotal", tp7_ctotal)
+{txt} 75{com}.         
+.         mata: tp8_direct = phi :* tp7_total
+{txt} 76{com}.         mata: tp8_spatial = (theta*Wcoal*tp7_total')'
+{txt} 77{com}.         mata: tp8_total = tp8_direct + tp8_spatial
+{txt} 78{com}.         mata: tp8_ctotal = tp8_direct + tp8_spatial + tp7_ctotal
+{txt} 79{com}.         
+.         mata: st_matrix("tp8_direct", tp8_direct)
+{txt} 80{com}.         mata: st_matrix("tp8_spatial", tp8_spatial)
+{txt} 81{com}.         mata: st_matrix("tp8_total", tp8_total)
+{txt} 82{com}.         mata: st_matrix("tp8_ctotal", tp8_ctotal)
+{txt} 83{com}.         
+.         mata: tp9_direct = phi :* tp8_total
+{txt} 84{com}.         mata: tp9_spatial = (theta*Wcoal*tp8_total')'
+{txt} 85{com}.         mata: tp9_total = tp9_direct + tp9_spatial
+{txt} 86{com}.         mata: tp9_ctotal = tp9_direct + tp9_spatial + tp8_ctotal
+{txt} 87{com}.         
+.         mata: st_matrix("tp9_direct", tp9_direct)
+{txt} 88{com}.         mata: st_matrix("tp9_spatial", tp9_spatial)
+{txt} 89{com}.         mata: st_matrix("tp9_total", tp9_total)
+{txt} 90{com}.         mata: st_matrix("tp9_ctotal", tp9_ctotal)
+{txt} 91{com}.         
+.         mata: tp10_direct = phi :* tp9_total
+{txt} 92{com}.         mata: tp10_spatial = (theta*Wcoal*tp9_total')'
+{txt} 93{com}.         mata: tp10_total = tp10_direct + tp10_spatial
+{txt} 94{com}.         mata: tp10_ctotal = tp10_direct + tp10_spatial + tp9_ctotal
+{txt} 95{com}.         
+.         mata: st_matrix("tp10_direct", tp10_direct)
+{txt} 96{com}.         mata: st_matrix("tp10_spatial", tp10_spatial)
+{txt} 97{com}.         mata: st_matrix("tp10_total", tp10_total)
+{txt} 98{com}.         mata: st_matrix("tp10_ctotal", tp10_ctotal)
+{txt} 99{com}.         
+.         mata: total_effect = tp0_total + tp1_total + tp2_total + tp3_total + tp4_total + tp5_total + tp6_total + tp7_total + tp8_total + tp9_total + tp10_total
+{txt}100{com}.         mata: st_matrix("total_effect", total_effect)
+{txt}101{com}.         
+.         foreach p of numlist 1(1)4 {c -(}
+{txt}102{com}.                 foreach t of numlist 0(1)10 {c -(}
+{txt}103{com}.                         mat tp`t'_direct_draws[`d',`p'] = tp`t'_direct[1,`p']
+{txt}104{com}.                         mat tp`t'_spatial_draws[`d',`p'] = tp`t'_spatial[1,`p']
+{txt}105{com}.                         mat tp`t'_ctotal_draws[`d',`p'] = tp`t'_ctotal[1,`p']
+{txt}106{com}.                         mat tp`t'_total_draws[`d',`p'] = tp`t'_total[1,`p']
+{txt}107{com}.                 {c )-}
+{txt}108{com}.                 mat total_draws[`d',`p'] = total_effect[1,`p']
+{txt}109{com}.         {c )-}
+{txt}110{com}.         
+.         if mod(`d',10) == 0 {c -(}
+{txt}111{com}.                 nois display "." _c
+{txt}112{com}.                 if mod(`d',100) == 0 {c -(}
+{txt}113{com}.                         nois display ""
+{txt}114{com}.                 {c )-}
+{txt}115{com}.         {c )-}       
+{txt}116{com}.         local d = `d' + 1
+{txt}117{com}. {c )-}       
+{res}..........
+..........
+..........
+..........
+..........
+..........
+..........
+..........
+..........
+..........
+{txt}
+{com}.         
+. mat effect = J(45, 20, 0)
+{txt}
+{com}. 
+. local b = 1
+{txt}
+{com}. foreach t of numlist 0(1)10 {c -(}
+{txt}  2{com}.         svmat tp`t'_direct_draws
+{txt}  3{com}.         foreach p of numlist 1(1)4 {c -(}
+{txt}  4{com}.                 local c = (`p' * 5) - 4
+{txt}  5{com}.                 local cp1 = `c' + 1
+{txt}  6{com}.                 local cp2 = `c' + 2
+{txt}  7{com}.                 local cp3 = `c' + 3 
+{txt}  8{com}.                 local cp4 = `c' + 4
+{txt}  9{com}.         
+.                 sum tp`t'_direct_draws`p', meanonly
+{txt} 10{com}.                 mat effect[`b',`c'] = r(mean)
+{txt} 11{com}.         
+.                 _pctile tp`t'_direct_draws`p', p(2.5 5 95 97.5)
+{txt} 12{com}.                 mat effect[`b',`cp1'] = r(r2)
+{txt} 13{com}.                 mat effect[`b',`cp2'] = r(r3)
+{txt} 14{com}.                 mat effect[`b',`cp3'] = r(r1)
+{txt} 15{com}.                 mat effect[`b',`cp4'] = r(r4)   
+{txt} 16{com}.         {c )-}
+{txt} 17{com}.         local b = `b' + 1
+{txt} 18{com}.         
+.         svmat tp`t'_spatial_draws
+{txt} 19{com}.         foreach p of numlist 1(1)4 {c -(}
+{txt} 20{com}.                 local c = (`p' * 5) - 4
+{txt} 21{com}.                 local cp1 = `c' + 1
+{txt} 22{com}.                 local cp2 = `c' + 2
+{txt} 23{com}.                 local cp3 = `c' + 3 
+{txt} 24{com}.                 local cp4 = `c' + 4
+{txt} 25{com}.         
+.                 sum tp`t'_spatial_draws`p', meanonly
+{txt} 26{com}.                 mat effect[`b',`c'] = r(mean)
+{txt} 27{com}.         
+.                 _pctile tp`t'_spatial_draws`p', p(2.5 5 95 97.5)
+{txt} 28{com}.                 mat effect[`b',`cp1'] = r(r2)
+{txt} 29{com}.                 mat effect[`b',`cp2'] = r(r3)
+{txt} 30{com}.                 mat effect[`b',`cp3'] = r(r1)
+{txt} 31{com}.                 mat effect[`b',`cp4'] = r(r4)
+{txt} 32{com}.         {c )-}
+{txt} 33{com}.         local b = `b' + 1
+{txt} 34{com}.         
+.         svmat tp`t'_total_draws
+{txt} 35{com}.         foreach p of numlist 1(1)4 {c -(}
+{txt} 36{com}.                 local c = (`p' * 5) - 4
+{txt} 37{com}.                 local cp1 = `c' + 1
+{txt} 38{com}.                 local cp2 = `c' + 2
+{txt} 39{com}.                 local cp3 = `c' + 3 
+{txt} 40{com}.                 local cp4 = `c' + 4
+{txt} 41{com}.         
+.                 sum tp`t'_total_draws`p', meanonly
+{txt} 42{com}.                 mat effect[`b',`c'] = r(mean)
+{txt} 43{com}.         
+.                 _pctile tp`t'_total_draws`p', p(2.5 5 95 97.5)
+{txt} 44{com}.                 mat effect[`b',`cp1'] = r(r2)
+{txt} 45{com}.                 mat effect[`b',`cp2'] = r(r3)
+{txt} 46{com}.                 mat effect[`b',`cp3'] = r(r1)
+{txt} 47{com}.                 mat effect[`b',`cp4'] = r(r4)   
+{txt} 48{com}.         {c )-}       
+{txt} 49{com}.         local b = `b' + 1
+{txt} 50{com}. 
+.         svmat tp`t'_ctotal_draws
+{txt} 51{com}.         foreach p of numlist 1(1)4 {c -(}
+{txt} 52{com}.                 local c = (`p' * 5) - 4
+{txt} 53{com}.                 local cp1 = `c' + 1
+{txt} 54{com}.                 local cp2 = `c' + 2
+{txt} 55{com}.                 local cp3 = `c' + 3 
+{txt} 56{com}.                 local cp4 = `c' + 4
+{txt} 57{com}.         
+.                 sum tp`t'_ctotal_draws`p', meanonly
+{txt} 58{com}.                 mat effect[`b',`c'] = r(mean)
+{txt} 59{com}.         
+.                 _pctile tp`t'_ctotal_draws`p', p(2.5 5 95 97.5)
+{txt} 60{com}.                 mat effect[`b',`cp1'] = r(r2)
+{txt} 61{com}.                 mat effect[`b',`cp2'] = r(r3)
+{txt} 62{com}.                 mat effect[`b',`cp3'] = r(r1)
+{txt} 63{com}.                 mat effect[`b',`cp4'] = r(r4)   
+{txt} 64{com}.         {c )-}       
+{txt} 65{com}.         local b = `b' + 1
+{txt} 66{com}. {c )-}
+{txt}
+{com}. 
+. svmat total_draws
+{txt}
+{com}. foreach p of numlist 1(1)4 {c -(}
+{txt}  2{com}.         local c = (`p' * 5) - 4
+{txt}  3{com}.         local cp1 = `c' + 1
+{txt}  4{com}.         local cp2 = `c' + 2
+{txt}  5{com}.         local cp3 = `c' + 3 
+{txt}  6{com}.         local cp4 = `c' + 4
+{txt}  7{com}. 
+.         sum total_draws`p', meanonly
+{txt}  8{com}.         mat effect[45,`c'] = r(mean)
+{txt}  9{com}.         
+.         _pctile total_draws`p', p(2.5 5 95 97.5)
+{txt} 10{com}.         mat effect[45,`cp1'] = r(r2)
+{txt} 11{com}.         mat effect[45,`cp2'] = r(r3)
+{txt} 12{com}.         mat effect[45,`cp3'] = r(r1)
+{txt} 13{com}.         mat effect[45,`cp4'] = r(r4)    
+{txt} 14{com}. {c )-}
+{txt}
+{com}. 
+. matrix rownames effect = tp0_direct tp0_spatial tp0_total tp0_ctotal tp1_direct tp1_spatial tp1_total tp1_ctotal tp2_direct tp2_spatial tp2_total tp2_ctotal tp3_direct tp3_spatial tp3_total tp3_ctotal tp4_direct tp4_spatial tp4_total tp4_ctotal tp5_direct tp5_spatial tp5_total tp5_ctotal tp6_direct tp6_spatial tp6_total tp6_ctotal tp7_direct tp7_spatial tp7_total tp7_ctotal tp8_direct tp8_spatial tp8_total tp8_ctotal tp9_direct tp9_spatial tp9_total tp9_ctotal tp10_direct tp10_spatial tp10_total tp10_ctotal total
+{txt}
+{com}. *matrix colnames effect = G G_lo90 G_hi90 G_lo95 G_hi95 SPD SPD_lo90 SPD_hi90 SPD_lo95 SPD_hi95 FDP FDP_lo90 FDP_hi90 FDP_lo95 FDP_hi95 CDU CDU_lo90 CDU_hi90 CDU_lo95 CDU_hi95
+. 
+. preserve
+{txt}
+{com}.         clear
+{txt}
+{com}. 
+.         matrix colnames effect = effect1 lo901 hi901 lo951 hi951 effect2 lo902 hi902 lo952 hi952 effect3 lo903 hi903 lo953 hi953 effect4 lo904 hi904 lo954 hi954
+{txt}
+{com}.         svmat effect, names(col)
+{txt}number of observations will be reset to 45
+Press any key to continue, or Break to abort
+{p}
+number of observations (_N)  was 0,
+now 45
+{p_end}
+
+{com}.         
+.         gen str12 effecttype = ""
+{txt}(45 missing values generated)
+
+{com}.         local b = 1
+{txt}
+{com}.         qui foreach v in tp0_direct tp0_spatial tp0_total tp0_ctotal tp1_direct tp1_spatial tp1_total tp1_ctotal tp2_direct tp2_spatial tp2_total tp2_ctotal tp3_direct tp3_spatial tp3_total tp3_ctotal tp4_direct tp4_spatial tp4_total tp4_ctotal tp5_direct tp5_spatial tp5_total tp5_ctotal tp6_direct tp6_spatial tp6_total tp6_ctotal tp7_direct tp7_spatial tp7_total tp7_ctotal tp8_direct tp8_spatial tp8_total tp8_ctotal tp9_direct tp9_spatial tp9_total tp9_ctotal tp10_direct tp10_spatial tp10_total tp10_ctotal total {c -(}
+{txt}
+{com}.         
+.         order effecttype
+{txt}
+{com}.         
+.         foreach p of numlist 1(1)4 {c -(}
+{txt}  2{com}.                 di _newline(2) "Party = `p' " 
+{txt}  3{com}.                 foreach t of numlist 0(1)3 {c -(}
+{txt}  4{com}.                         list effectt *`p' if effecttype == "tp`t'_direct"
+{txt}  5{com}.                         list effectt *`p' if effecttype == "tp`t'_spatial"
+{txt}  6{com}.                 {c )-}
+{txt}  7{com}. 
+.                 list effectt *`p' if effecttype == "total"
+{txt}  8{com}.         {c )-}
+
+
+Party = 1 
+{txt}
+     {c TLC}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype   effect1      lo901      hi901      lo951      hi951 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  1. {c |} {res}tp0_direct   .548045   .1059086   1.035595   .0271825   1.138477 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect1     lo901     hi901      lo951      hi951 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c RT}
+  2. {c |} {res}tp0_spatial   .0201592   .000333   .049847   -.001854   .0589406 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 9}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype   effect1       lo901      hi901       lo951      hi951 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 9}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+  5. {c |} {res}tp1_direct   .016554   -.1016289   .1338851   -.1344817   .1710894 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 9}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect1       lo901      hi901       lo951      hi951 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+  6. {c |} {res}tp1_spatial   .0723461   -.0021458   .1769517   -.0145571   .1991124 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect1       lo901      hi901      lo951      hi951 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  9. {c |} {res}tp2_direct   .0088645   -.0055384   .0425522   -.007957   .0598758 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect1       lo901      hi901       lo951      hi951 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+ 10. {c |} {res}tp2_spatial   .0241278   -.0006233   .0623693   -.0036089   .0779397 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect1       lo901      hi901       lo951      hi951 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+ 13. {c |} {res}tp3_direct   .0018765   -.0053475   .0124186   -.0076786   .0201806 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect1       lo901      hi901       lo951      hi951 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+ 14. {c |} {res}tp3_spatial   .0069979   -.0001298   .0213236   -.0008555   .0261765 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effect~e    effect1      lo901     hi901      lo951      hi951 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 45. {c |} {res}   total   .7039601   .1541549   1.30822   .0401815   1.467235 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+
+Party = 2 
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c TRC}
+     {c |} {res}effecttype    effect2      lo902      hi902      lo952     hi952 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c RT}
+  1. {c |} {res}tp0_direct   .5489031   .1060398   1.037227   .0272763   1.13924 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype   effect2      lo902      hi902      lo952      hi952 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  2. {c |} {res}tp0_spatial   .059449   .0009982   .1454002   -.005536   .1726035 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c TRC}
+     {c |} {res}effecttype    effect2      lo902      hi902      lo952     hi952 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c RT}
+  5. {c |} {res}tp1_direct   .1192949   .0159933   .2636255   .0012007   .316614 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect2       lo902      hi902       lo952      hi952 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+  6. {c |} {res}tp1_spatial   .0676511   -.0019614   .1663941   -.0137815   .1896828 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect2      lo902     hi902      lo952      hi952 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c RT}
+  9. {c |} {res}tp2_direct   .0399449   .0036021   .105576   .0002918   .1270289 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect2       lo902      hi902       lo952      hi952 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+ 10. {c |} {res}tp2_spatial   .0124581   -.0018148   .0431122   -.0037426   .0521486 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect2      lo902      hi902      lo952      hi952 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 13. {c |} {res}tp3_direct   .0120535   .0005531   .0372646   .0000233   .0480911 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect2      lo902      hi902       lo952      hi952 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+ 14. {c |} {res}tp3_spatial   .0049659   6.07e-06   .0175182   -.0001496   .0211304 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c TRC}
+     {c |} {res}effect~e    effect2      lo902      hi902     lo952     hi952 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c RT}
+ 45. {c |} {res}   total   .8732105   .1749373   1.647423   .043557   1.82741 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c BRC}
+
+
+Party = 3 
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c TRC}
+     {c |} {res}effecttype    effect3      lo903      hi903      lo953     hi953 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c RT}
+  1. {c |} {res}tp0_direct   .5489031   .1060398   1.037227   .0272763   1.13924 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype   effect3      lo903      hi903      lo953      hi953 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  2. {c |} {res}tp0_spatial   .059449   .0009982   .1454002   -.005536   .1726035 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect3      lo903      hi903      lo953      hi953 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  5. {c |} {res}tp1_direct   .1281272   .0147597   .2853727   .0038902   .3253319 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res} effecttype   effect3   lo903   hi903   lo953   hi953 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  6. {c |} {res}tp1_spatial         0       0       0       0       0 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect3      lo903      hi903     lo953      hi953 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c RT}
+  9. {c |} {res}tp2_direct   .0299883   .0014414   .0834886   .000186   .1013005 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res} effecttype   effect3   lo903   hi903   lo953   hi953 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 10. {c |} {res}tp2_spatial         0       0       0       0       0 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect3      lo903      hi903      lo953      hi953 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 13. {c |} {res}tp3_direct   .0075927   .0001848   .0263609   8.57e-06   .0325354 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res} effecttype   effect3   lo903   hi903   lo953   hi953 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 14. {c |} {res}tp3_spatial         0       0       0       0       0 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+     {c TLC}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c TRC}
+     {c |} {res}effect~e   effect3      lo903      hi903     lo953      hi953 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c RT}
+ 45. {c |} {res}   total   .776943   .1503181   1.492778   .040286   1.642545 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 9}{c -}{hline 10}{c BRC}
+
+
+Party = 4 
+
+     {c TLC}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype   effect4      lo904      hi904      lo954      hi954 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  1. {c |} {res}tp0_direct   .548045   .1059086   1.035595   .0271825   1.138477 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res} effecttype    effect4     lo904     hi904      lo954      hi954 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c RT}
+  2. {c |} {res}tp0_spatial   .0201592   .000333   .049847   -.001854   .0589406 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 10}{c -}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect4       lo904      hi904      lo954      hi954 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  5. {c |} {res}tp1_direct   .0761249   -.0224623   .2254347   -.044933   .2630578 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res} effecttype   effect4   lo904   hi904   lo954   hi954 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  6. {c |} {res}tp1_spatial         0       0       0       0       0 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype   effect4      lo904      hi904      lo954      hi954 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  9. {c |} {res}tp2_direct   .016285   .0000627   .0600193   4.54e-06   .0805576 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res} effecttype   effect4   lo904   hi904   lo954   hi954 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 10. {c |} {res}tp2_spatial         0       0       0       0       0 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+     {c TLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
+     {c |} {res}effecttype    effect4       lo904      hi904       lo954      hi954 {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c RT}
+ 13. {c |} {res}tp3_direct   .0038167   -.0000507   .0173295   -.0003532   .0235385 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
+
+     {c TLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res} effecttype   effect4   lo904   hi904   lo954   hi954 {txt}{c |}
+     {c LT}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 14. {c |} {res}tp3_spatial         0       0       0       0       0 {txt}{c |}
+     {c BLC}{hline 13}{c -}{hline 9}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+     {c TLC}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}effect~e    effect4      lo904      hi904      lo954      hi954 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 45. {c |} {res}   total   .6659172   .1251625   1.289984   .0316565   1.389699 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}.         
+.         *** Reshape for better ggplot-ing
+.         reshape long effect lo90 hi90 lo95 hi95, i(effecttype) j(party)
+{txt}(note: j = 1 2 3 4)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}      45   {txt}->{res}     180
+{txt}Number of variables            {res}      21   {txt}->{res}       7
+{txt}j variable (4 values)                     ->   {res}party
+{txt}xij variables:
+            {res}effect1 effect2 ... effect4   {txt}->   {res}effect
+                  lo901 lo902 ... lo904   {txt}->   {res}lo90
+                  hi901 hi902 ... hi904   {txt}->   {res}hi90
+                  lo951 lo952 ... lo954   {txt}->   {res}lo95
+                  hi951 hi952 ... hi954   {txt}->   {res}hi95
+{txt}{hline 77}
+
+{com}.         
+.         drop if effecttype == "total"
+{txt}(4 observations deleted)
+
+{com}.         
+.         *** Generate party name
+.         gen str11 partyname = "Greens" if party == 1
+{txt}(132 missing values generated)
+
+{com}.         replace partyname = "SPD" if party == 2
+{txt}(44 real changes made)
+
+{com}.         replace partyname = "FDP" if party == 3
+{txt}(44 real changes made)
+
+{com}.         replace partyname = "CDU" if party == 4
+{txt}(44 real changes made)
+
+{com}.         
+.         *** Generate time and effect type variables
+.         split effecttype, p("tp" "_")
+{res}variables created as string: 
+{txt}{col 1}effecttype1{col 14}effecttype2{col 27}effecttype3
+
+{com}.         drop effecttype effecttype1
+{txt}
+{com}.         rename effecttype2 order
+{res}{txt}
+{com}.         rename effecttype3 effectname
+{res}{txt}
+{com}.         destring order, force replace 
+{txt}order: all characters numeric; {res}replaced {txt}as {res}byte
+{txt}
+{com}.         
+.         sort effectname party order
+{txt}
+{com}.         
+.         saveold "Results\Data\Spatial-Long-Term Effects.dta", replace version(12)
+{txt}{p 0 1 2}
+(saving in Stata 12 format, which can be read
+by Stata 11 or 12)
+{p_end}
+file Results\Data\Spatial-Long-Term Effects.dta saved
+
+{com}. restore
+{txt}
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\williamslaro\Documents\Research\Projects\Spatial Methods\Robustness\Spring 2018\R&R\Results\Spatial Issue Competition--Replication.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 5 Jun 2018, 12:37:02
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
